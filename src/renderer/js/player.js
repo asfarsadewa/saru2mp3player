@@ -32,10 +32,15 @@ class MP3Player {
       this.gainNode = this.audioContext.createGain();
       this.gainNode.gain.value = this.volume;
       
+      // Analyzer for spectrum visualization
+      this.analyserNode = this.audioContext.createAnalyser();
+      this.analyserNode.fftSize = 512;
+      this.analyserNode.smoothingTimeConstant = 0.8;
+      
       // EQ will be initialized by EqualizerManager
       this.eqFilters = [];
       
-      console.log('Web Audio API initialized');
+      console.log('Web Audio API initialized with spectrum analyzer');
     } catch (error) {
       console.error('Web Audio API not supported:', error);
       this.audioContext = null;
@@ -46,16 +51,17 @@ class MP3Player {
     if (!this.audioContext) return;
 
     try {
-      // Reset source if it already exists
-      if (this.source) {
+      // Only create MediaElementSource once - reuse for all tracks
+      if (!this.source) {
+        console.log('Creating MediaElementSource (first time only)');
+        this.source = this.audioContext.createMediaElementSource(this.audio);
+      } else {
+        console.log('Reusing existing MediaElementSource');
+        // Disconnect existing connections before reconnecting
         this.source.disconnect();
-        this.source = null;
       }
-
-      // Create source from audio element
-      this.source = this.audioContext.createMediaElementSource(this.audio);
       
-      // Connect through the processing chain: Source -> EQ -> Retro -> Gain -> Output
+      // Connect/reconnect the processing chain
       this.connectProcessingChain();
       
       console.log('Audio chain connected');
@@ -68,9 +74,17 @@ class MP3Player {
     if (!this.source) return;
 
     try {
-      // Only disconnect the source and gain nodes - let EQ/Retro handle their own internal connections
-      this.source.disconnect();
+      // Disconnect nodes that might be connected (source might already be disconnected)
+      try {
+        this.source.disconnect();
+      } catch (e) {
+        // Source might already be disconnected - that's OK
+      }
+      
       this.gainNode.disconnect();
+      if (this.analyserNode) {
+        this.analyserNode.disconnect();
+      }
     } catch (e) {
       // Ignore disconnect errors - nodes might not be connected yet
     }
@@ -88,6 +102,11 @@ class MP3Player {
       currentNode.connect(window.retroMode.inputNode);
       window.retroMode.ensureConnection(); // Ensure retro internal chain is connected
       currentNode = window.retroMode.outputNode;
+    }
+    
+    // Connect to analyzer for visualization (doesn't affect audio)
+    if (this.analyserNode) {
+      currentNode.connect(this.analyserNode);
     }
     
     // Final connection to gain and output

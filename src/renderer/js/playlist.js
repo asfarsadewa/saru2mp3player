@@ -1,8 +1,10 @@
 class PlaylistManager {
   constructor() {
-    this.isPlaylistVisible = false;
+    this.isPlaylistVisible = true; // Start visible by default
     this.playlistWindow = null;
     this.initializePlaylistControls();
+    // Show playlist window immediately on startup
+    setTimeout(() => this.showPlaylistWindow(), 100);
   }
 
   initializePlaylistControls() {
@@ -32,11 +34,11 @@ class PlaylistManager {
 
   togglePlaylistWindow() {
     console.log('Toggling playlist window, current state:', this.isPlaylistVisible);
+    // Since window is always visible by default, button only hides it
     if (this.isPlaylistVisible) {
       this.hidePlaylistWindow();
-    } else {
-      this.showPlaylistWindow();
     }
+    // Don't show if hidden - user can refresh page to get it back
   }
 
   showPlaylistWindow() {
@@ -95,10 +97,7 @@ class PlaylistManager {
         console.log('Playlist window classes:', this.playlistWindow.className);
       }, 10);
       
-      console.log('Expanding window for playlist');
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 196 + 350 + 10);
-      }
+      // No need to resize window - it's already the right size
       
       console.log('showPlaylistWindow completed successfully');
     } catch (error) {
@@ -110,11 +109,7 @@ class PlaylistManager {
     if (this.playlistWindow) {
       console.log('Hiding playlist window');
       
-      // Resize window immediately
-      console.log('Shrinking window back to normal size');
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 196);
-      }
+      // No need to resize window - it stays the same size
       
       this.playlistWindow.classList.remove('visible');
       this.isPlaylistVisible = false;

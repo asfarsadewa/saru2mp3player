@@ -48,6 +48,11 @@
       <button class="control-btn" id="stopBtn">⏹</button>
       <button class="control-btn" id="nextBtn">⏭</button>
       
+      <button class="file-btn" id="openFileBtn">OPEN</button>
+      <button class="eq-btn" id="eqBtn">EQ</button>
+      <button class="pl-btn" id="playlistBtn">PL</button>
+      <button class="viz-btn" id="vizBtn">VIZ</button>
+      
       <div class="volume-container">
         <span class="volume-label">VOL</span>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
@@ -55,9 +60,6 @@
     </div>
 
     <div class="bottom-controls">
-      <button class="file-btn" id="openFileBtn">OPEN</button>
-      <button class="eq-btn" id="eqBtn">EQ</button>
-      <button class="pl-btn" id="playlistBtn">PL</button>
       <div class="status-indicators">
         <span class="shuffle-indicator" id="shuffleIndicator">S</span>
         <span class="repeat-indicator" id="repeatIndicator">R</span>
@@ -68,11 +70,37 @@
 
   <audio id="audioPlayer"></audio>
 
+  <!-- Advanced Visualizer Window -->
+  <div class="viz-window" id="vizWindow">
+    <div class="viz-header">
+      <div class="viz-title">Advanced Visualizer</div>
+      <div class="viz-controls">
+        <select class="viz-mode-select" id="vizModeSelect">
+          <option value="cascade">Spectrum Cascade</option>
+          <option value="waterfall">Waveform Waterfall</option>
+          <option value="meters">VU Meters</option>
+          <option value="circle">Circular Spectrum</option>
+          <option value="oscilloscope">Oscilloscope Tower</option>
+          <option value="helix">DNA Helix</option>
+        </select>
+        <button class="viz-close" id="vizClose">×</button>
+      </div>
+    </div>
+    <div class="viz-content">
+      <canvas class="viz-canvas" id="vizCanvas" width="263" height="280"></canvas>
+      <div class="viz-status">
+        <span class="viz-mode-name" id="vizModeName">Spectrum Cascade</span>
+        <div class="viz-beat-indicator" id="vizBeatIndicator"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="../src/renderer/js/player.js"></script>
   <script src="../src/renderer/js/playlist.js"></script>
   <script src="../src/renderer/js/equalizer.js"></script>
   <script src="../src/renderer/js/retromode.js"></script>
   <script src="../src/renderer/js/ui.js"></script>
   <script src="../src/renderer/js/visualizer.js"></script>
+  <script src="../src/renderer/js/visualizer-advanced.js"></script>
 </body>
 </html>
