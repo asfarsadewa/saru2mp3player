@@ -91,9 +91,11 @@ body {
 }
 
 .title-bar-control {
-  width: 16px;
-  height: 14px;
-  font-size: 9px;
+  min-width: 24px;
+  min-height: 18px;
+  width: max(24px, 16px);
+  height: max(18px, 14px);
+  font-size: 11px;
   border: 1px solid;
   border-color: var(--winamp-button-light) var(--winamp-button-dark) var(--winamp-button-dark) var(--winamp-button-light);
   background: linear-gradient(145deg, var(--winamp-button-light) 0%, var(--winamp-button-base) 100%);
@@ -105,6 +107,8 @@ body {
   font-family: 'Trebuchet MS', sans-serif;
   font-weight: bold;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  padding: 2px 4px;
 }
 
 .title-bar-control:hover {
