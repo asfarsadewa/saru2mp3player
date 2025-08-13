@@ -1,6 +1,6 @@
 class AdvancedVisualizerManager {
   constructor() {
-    this.isVizVisible = true; // Always visible now
+    this.isVizVisible = true; // Start visible by default
     this.vizWindow = null;
     this.canvas = null;
     this.ctx = null;
@@ -96,12 +96,7 @@ class AdvancedVisualizerManager {
       e.preventDefault();
       e.stopPropagation();
       
-      // Since window is always visible by default, button only hides it
-      if (this.isVizVisible) {
-        console.log('AdvancedVisualizerManager: Hiding visualizer window');
-        this.hideVisualizerWindow();
-      }
-      // Don't show if hidden - user can refresh page to get it back
+      this.toggleVisualizerWindow();
     });
     
     if (vizClose) {
@@ -121,26 +116,57 @@ class AdvancedVisualizerManager {
         }
       });
     }
+    
+    // Initialize button state
+    this.updateVizButtonState();
   }
 
   positionVisualizerWindow() {
     // Position is now handled by CSS - no dynamic positioning needed
   }
 
+  toggleVisualizerWindow() {
+    console.log('AdvancedVisualizerManager: Toggling visualizer window, current state:', this.isVizVisible);
+    if (this.isVizVisible) {
+      this.hideVisualizerWindow();
+    } else {
+      this.showVisualizerWindow();
+    }
+  }
+
   showVisualizerWindow() {
-    // Window is always visible now, just start visualization if needed
-    this.isVizVisible = true;
-    
-    if (window.player && window.player.isPlaying) {
-      this.startVisualization();
+    console.log('AdvancedVisualizerManager: Showing visualizer window');
+    if (this.vizWindow) {
+      this.vizWindow.classList.add('visible');
+      this.isVizVisible = true;
+      this.updateVizButtonState();
+      
+      if (window.player && window.player.isPlaying) {
+        this.startVisualization();
+      }
     }
   }
 
   hideVisualizerWindow() {
+    console.log('AdvancedVisualizerManager: Hiding visualizer window');
     if (this.vizWindow) {
       this.vizWindow.classList.remove('visible');
       this.isVizVisible = false;
+      this.updateVizButtonState();
       this.stopVisualization();
+    }
+  }
+
+  updateVizButtonState() {
+    const vizBtn = document.getElementById('vizBtn');
+    if (vizBtn) {
+      if (this.isVizVisible) {
+        vizBtn.style.background = '';
+        vizBtn.title = 'Hide Visualizer';
+      } else {
+        vizBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
+        vizBtn.title = 'Show Visualizer';
+      }
     }
   }
 

@@ -24,21 +24,25 @@ class PlaylistManager {
       console.log('Playlist button clicked!');
       e.preventDefault();
       e.stopPropagation();
+      
+      const originalBackground = playlistBtn.style.background;
       playlistBtn.style.background = '#a0a0a0';
       setTimeout(() => {
-        playlistBtn.style.background = '';
+        playlistBtn.style.background = originalBackground;
+        this.updatePlaylistButtonState();
       }, 100);
+      
       this.togglePlaylistWindow();
     });
   }
 
   togglePlaylistWindow() {
     console.log('Toggling playlist window, current state:', this.isPlaylistVisible);
-    // Since window is always visible by default, button only hides it
     if (this.isPlaylistVisible) {
       this.hidePlaylistWindow();
+    } else {
+      this.showPlaylistWindow();
     }
-    // Don't show if hidden - user can refresh page to get it back
   }
 
   showPlaylistWindow() {
@@ -89,6 +93,7 @@ class PlaylistManager {
       
       this.isPlaylistVisible = true;
       console.log('Set playlist visible to true');
+      this.updatePlaylistButtonState();
 
       console.log('Adding visible class in 10ms...');
       setTimeout(() => {
@@ -113,6 +118,7 @@ class PlaylistManager {
       
       this.playlistWindow.classList.remove('visible');
       this.isPlaylistVisible = false;
+      this.updatePlaylistButtonState();
       
       setTimeout(() => {
         if (this.playlistWindow && this.playlistWindow.parentNode) {
@@ -226,6 +232,21 @@ class PlaylistManager {
       header.style.cursor = 'grabbing';
       e.preventDefault();
     });
+  }
+
+  updatePlaylistButtonState() {
+    const playlistBtn = document.getElementById('playlistBtn');
+    if (playlistBtn) {
+      if (this.isPlaylistVisible) {
+        playlistBtn.textContent = 'PL';
+        playlistBtn.style.background = '';
+        playlistBtn.title = 'Hide Playlist';
+      } else {
+        playlistBtn.textContent = 'PL';
+        playlistBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
+        playlistBtn.title = 'Show Playlist';
+      }
+    }
   }
 
   updatePlaylistDisplay() {

@@ -90,20 +90,27 @@ class EqualizerManager {
     eqBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      
+      const originalBackground = eqBtn.style.background;
       eqBtn.style.background = '#a0a0a0';
       setTimeout(() => {
-        eqBtn.style.background = '';
+        eqBtn.style.background = originalBackground;
+        this.updateEqButtonState();
       }, 100);
+      
       this.toggleEqWindow();
     });
+    
+    // Initialize button state
+    this.updateEqButtonState();
   }
 
   toggleEqWindow() {
-    // Since window is always visible by default, button only hides it
     if (this.isEqVisible) {
       this.hideEqWindow();
+    } else {
+      this.showEqWindow();
     }
-    // Don't show if hidden - user can refresh page to get it back
   }
 
   showEqWindow() {
@@ -152,6 +159,7 @@ class EqualizerManager {
       this.positionEqWindow();
       this.initializeEqWindowControls();
       this.isEqVisible = true;
+      this.updateEqButtonState();
 
       // No need to resize window - it's already the right size
 
@@ -170,6 +178,7 @@ class EqualizerManager {
       
       this.eqWindow.classList.remove('visible');
       this.isEqVisible = false;
+      this.updateEqButtonState();
       
       setTimeout(() => {
         if (this.eqWindow && this.eqWindow.parentNode) {
@@ -198,6 +207,19 @@ class EqualizerManager {
     this.eqWindow.style.width = '275px';
     this.eqWindow.style.height = '196px';
     this.eqWindow.style.zIndex = '1000';
+  }
+
+  updateEqButtonState() {
+    const eqBtn = document.getElementById('eqBtn');
+    if (eqBtn) {
+      if (this.isEqVisible) {
+        eqBtn.style.background = '';
+        eqBtn.title = 'Hide Equalizer';
+      } else {
+        eqBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
+        eqBtn.title = 'Show Equalizer';
+      }
+    }
   }
 
   initializeEqWindowControls() {
