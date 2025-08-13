@@ -24,6 +24,17 @@ class PlayerUI {
     const shuffleIndicator = document.getElementById('shuffleIndicator');
     const repeatIndicator = document.getElementById('repeatIndicator');
     const retroIndicator = document.getElementById('retroIndicator');
+    const vizBtn = document.getElementById('vizBtn');
+
+    vizBtn.addEventListener('click', () => {
+      if (window.advancedVisualizerManager) {
+        window.advancedVisualizerManager.toggleVisualizerWindow();
+      }
+    });
+
+    window.addEventListener('vizStateChange', () => this.updateVizButtonState());
+
+    this.updateVizButtonState(); // Set initial state
 
     playBtn.addEventListener('click', () => {
       window.player.play();
@@ -288,6 +299,15 @@ class PlayerUI {
     } else {
       playBtn.style.display = 'inline-block';
       pauseBtn.style.display = 'none';
+    }
+  }
+
+  updateVizButtonState() {
+    const vizBtn = document.getElementById('vizBtn');
+    if (vizBtn && window.advancedVisualizerManager) {
+      const isVisible = window.advancedVisualizerManager.isVizVisible;
+      vizBtn.classList.toggle('active', isVisible);
+      vizBtn.title = isVisible ? 'Hide Visualizer' : 'Show Visualizer';
     }
   }
 

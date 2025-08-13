@@ -1,6 +1,6 @@
 class AdvancedVisualizerManager {
   constructor() {
-    this.isVizVisible = true; // Start visible by default
+    this.isVizVisible = false; // Start hidden by default
     this.vizWindow = null;
     this.canvas = null;
     this.ctx = null;
@@ -69,8 +69,7 @@ class AdvancedVisualizerManager {
     this.canvas.style.width = '263px';
     this.canvas.style.height = '280px';
     
-    // Start visible by default
-    this.vizWindow.classList.add('visible');
+    // Window starts hidden, controlled by UI
     
     this.positionVisualizerWindow();
   }
@@ -91,13 +90,7 @@ class AdvancedVisualizerManager {
       return;
     }
     
-    vizBtn.addEventListener('click', (e) => {
-      console.log('AdvancedVisualizerManager: VIZ button clicked');
-      e.preventDefault();
-      e.stopPropagation();
-      
-      this.toggleVisualizerWindow();
-    });
+    // The vizBtn event listener is now managed by PlayerUI
     
     if (vizClose) {
       vizClose.addEventListener('click', () => {
@@ -117,8 +110,7 @@ class AdvancedVisualizerManager {
       });
     }
     
-    // Initialize button state
-    this.updateVizButtonState();
+    // Button state is now handled by PlayerUI
   }
 
   positionVisualizerWindow() {
@@ -139,7 +131,7 @@ class AdvancedVisualizerManager {
     if (this.vizWindow) {
       this.vizWindow.classList.add('visible');
       this.isVizVisible = true;
-      this.updateVizButtonState();
+      window.dispatchEvent(new Event('vizStateChange'));
       
       if (window.player && window.player.isPlaying) {
         this.startVisualization();
@@ -152,21 +144,8 @@ class AdvancedVisualizerManager {
     if (this.vizWindow) {
       this.vizWindow.classList.remove('visible');
       this.isVizVisible = false;
-      this.updateVizButtonState();
+      window.dispatchEvent(new Event('vizStateChange'));
       this.stopVisualization();
-    }
-  }
-
-  updateVizButtonState() {
-    const vizBtn = document.getElementById('vizBtn');
-    if (vizBtn) {
-      if (this.isVizVisible) {
-        vizBtn.style.background = '';
-        vizBtn.title = 'Hide Visualizer';
-      } else {
-        vizBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
-        vizBtn.title = 'Show Visualizer';
-      }
     }
   }
 
