@@ -5,16 +5,54 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "build": "electron-builder --win",
+    "build:win": "electron-builder --win",
+    "generate-ico": "png-to-ico src/renderer/assets/icons/icon.png > src/renderer/assets/icons/icon.ico",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Saru2 MP3 Player - A retro-style music player built with Electron",
   "devDependencies": {
-    "electron": "^37.2.6"
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12",
+    "png-to-ico": "^2.1.8"
   },
   "dependencies": {
     "node-id3": "^0.2.9"
+  },
+  "build": {
+    "appId": "com.saru2mp3player.app",
+    "productName": "Saru2 MP3 Player",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "public/**/*",
+      "src/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "src/renderer/assets/icons/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.exe",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Saru2 MP3 Player"
+    }
   }
 }

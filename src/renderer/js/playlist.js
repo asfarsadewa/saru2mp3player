@@ -1,8 +1,10 @@
 class PlaylistManager {
   constructor() {
-    this.isPlaylistVisible = false;
+    this.isPlaylistVisible = true; // Start visible by default
     this.playlistWindow = null;
     this.initializePlaylistControls();
+    // Show playlist window immediately on startup
+    setTimeout(() => this.showPlaylistWindow(), 100);
   }
 
   initializePlaylistControls() {
@@ -22,10 +24,14 @@ class PlaylistManager {
       console.log('Playlist button clicked!');
       e.preventDefault();
       e.stopPropagation();
+      
+      const originalBackground = playlistBtn.style.background;
       playlistBtn.style.background = '#a0a0a0';
       setTimeout(() => {
-        playlistBtn.style.background = '';
+        playlistBtn.style.background = originalBackground;
+        this.updatePlaylistButtonState();
       }, 100);
+      
       this.togglePlaylistWindow();
     });
   }
@@ -87,6 +93,7 @@ class PlaylistManager {
       
       this.isPlaylistVisible = true;
       console.log('Set playlist visible to true');
+      this.updatePlaylistButtonState();
 
       console.log('Adding visible class in 10ms...');
       setTimeout(() => {
@@ -95,10 +102,7 @@ class PlaylistManager {
         console.log('Playlist window classes:', this.playlistWindow.className);
       }, 10);
       
-      console.log('Expanding window for playlist');
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 196 + 350 + 10);
-      }
+      // No need to resize window - it's already the right size
       
       console.log('showPlaylistWindow completed successfully');
     } catch (error) {
@@ -110,14 +114,11 @@ class PlaylistManager {
     if (this.playlistWindow) {
       console.log('Hiding playlist window');
       
-      // Resize window immediately
-      console.log('Shrinking window back to normal size');
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 196);
-      }
+      // No need to resize window - it stays the same size
       
       this.playlistWindow.classList.remove('visible');
       this.isPlaylistVisible = false;
+      this.updatePlaylistButtonState();
       
       setTimeout(() => {
         if (this.playlistWindow && this.playlistWindow.parentNode) {
@@ -231,6 +232,21 @@ class PlaylistManager {
       header.style.cursor = 'grabbing';
       e.preventDefault();
     });
+  }
+
+  updatePlaylistButtonState() {
+    const playlistBtn = document.getElementById('playlistBtn');
+    if (playlistBtn) {
+      if (this.isPlaylistVisible) {
+        playlistBtn.textContent = 'PL';
+        playlistBtn.style.background = '';
+        playlistBtn.title = 'Hide Playlist';
+      } else {
+        playlistBtn.textContent = 'PL';
+        playlistBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
+        playlistBtn.title = 'Show Playlist';
+      }
+    }
   }
 
   updatePlaylistDisplay() {

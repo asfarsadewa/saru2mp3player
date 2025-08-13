@@ -1,5 +1,7 @@
 .playlist-window {
   position: fixed;
+  top: 196px;
+  left: 0px;
   width: 550px;
   height: 350px;
   background: linear-gradient(145deg, var(--winamp-frame-highlight) 0%, var(--winamp-frame-light) 30%, var(--winamp-frame-dark) 100%);
@@ -10,10 +12,11 @@
     0 2px 8px var(--winamp-shadow);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;
   font-size: 11px;
-  opacity: 0;
-  transform: scale(0.95);
+  opacity: 1;
+  transform: scale(1);
   transition: all 0.2s ease;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .playlist-window.visible {
@@ -298,6 +301,8 @@
 
 .eq-window {
   position: fixed;
+  top: 0px;
+  left: 550px;
   width: 275px;
   height: 196px;
   background: linear-gradient(145deg, var(--winamp-frame-highlight) 0%, var(--winamp-frame-light) 30%, var(--winamp-frame-dark) 100%);
@@ -308,10 +313,11 @@
     0 2px 8px var(--winamp-shadow);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;
   font-size: 11px;
-  opacity: 0;
-  transform: scale(0.95);
+  opacity: 1;
+  transform: scale(1);
   transition: all 0.2s ease;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .eq-window.visible {
@@ -404,6 +410,27 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
+.eq-preset-select option {
+  background: var(--winamp-display-bg);
+  color: var(--winamp-display-text);
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 4px;
+  border: none;
+}
+
+.eq-preset-select option:hover,
+.eq-preset-select option:focus {
+  background: var(--winamp-accent);
+  color: #ffffff;
+}
+
+.eq-preset-select option:checked {
+  background: var(--winamp-accent-bright);
+  color: #ffffff;
+}
+
 .eq-sliders {
   display: flex;
   justify-content: space-between;
@@ -470,4 +497,160 @@
   text-align: center;
   min-height: 10px;
   text-shadow: 0 0 1px currentColor;
+}
+
+/* Advanced Visualizer Window */
+.viz-window {
+  position: fixed;
+  top: 196px;
+  left: 550px;
+  width: 275px;
+  height: 350px;
+  background: linear-gradient(145deg, var(--winamp-frame-highlight) 0%, var(--winamp-frame-light) 30%, var(--winamp-frame-dark) 100%);
+  border: 1px solid var(--winamp-frame-dark);
+  box-shadow: 
+    inset 1px 1px 0 var(--winamp-frame-highlight),
+    inset -1px -1px 0 var(--winamp-frame-dark),
+    0 2px 8px var(--winamp-shadow);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;
+  font-size: 11px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.viz-window.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.viz-header {
+  height: 20px;
+  background: linear-gradient(180deg, var(--winamp-title-light) 0%, var(--winamp-title-dark) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  cursor: grab;
+  border-bottom: 1px solid var(--winamp-frame-dark);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.viz-title {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
+}
+
+.viz-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.viz-mode-select {
+  width: 120px;
+  height: 14px;
+  background: linear-gradient(145deg, var(--winamp-button-light) 0%, var(--winamp-button-base) 100%);
+  border: 1px solid;
+  border-color: var(--winamp-button-light) var(--winamp-button-dark) var(--winamp-button-dark) var(--winamp-button-light);
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 8px;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.viz-mode-select option {
+  background: var(--winamp-display-bg);
+  color: var(--winamp-display-text);
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 2px 4px;
+  border: none;
+}
+
+.viz-mode-select option:hover,
+.viz-mode-select option:focus {
+  background: var(--winamp-accent);
+  color: #ffffff;
+}
+
+.viz-mode-select option:checked {
+  background: var(--winamp-accent-bright);
+  color: #ffffff;
+}
+
+.viz-close {
+  width: 16px;
+  height: 14px;
+  font-size: 9px;
+  border: 1px solid;
+  border-color: var(--winamp-button-light) var(--winamp-button-dark) var(--winamp-button-dark) var(--winamp-button-light);
+  background: linear-gradient(145deg, var(--winamp-button-light) 0%, var(--winamp-button-base) 100%);
+  color: #ffffff;
+  cursor: pointer;
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.viz-close:hover {
+  background: linear-gradient(145deg, #ff6666 0%, #cc4444 100%);
+  border-color: #ff6666 #cc4444 #cc4444 #ff6666;
+}
+
+.viz-content {
+  height: calc(100% - 20px);
+  background: var(--winamp-display-bg);
+  margin: 3px 6px;
+  border: 1px solid var(--winamp-frame-dark);
+  box-shadow: 
+    inset 1px 1px 3px rgba(0, 0, 0, 0.8),
+    inset -1px -1px 1px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.viz-canvas {
+  flex: 1;
+  background: var(--winamp-display-bg);
+  cursor: default;
+}
+
+.viz-status {
+  height: 20px;
+  background: var(--winamp-display-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+.viz-mode-name {
+  color: var(--winamp-display-text);
+  font-size: 9px;
+  font-weight: bold;
+  text-shadow: 0 0 2px currentColor;
+}
+
+.viz-beat-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--winamp-display-bg);
+  border: 1px solid var(--winamp-display-dim);
+  transition: all 0.1s ease;
+}
+
+.viz-beat-indicator.beat {
+  background: var(--winamp-accent-bright);
+  border-color: var(--winamp-accent-bright);
+  box-shadow: 0 0 8px var(--winamp-accent-bright);
 }

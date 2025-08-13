@@ -42,7 +42,9 @@ body {
 .player-container {
   width: 550px;
   height: 196px;
-  position: relative;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   border-radius: 0;
   overflow: hidden;
   background: linear-gradient(145deg, var(--winamp-frame-highlight) 0%, var(--winamp-frame-light) 30%, var(--winamp-frame-dark) 100%);
@@ -52,6 +54,7 @@ body {
     inset -1px -1px 0 var(--winamp-frame-dark),
     0 2px 8px var(--winamp-shadow);
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .player-container.drag-over {
@@ -237,10 +240,10 @@ body {
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0 6px;
   margin: 3px 6px;
-  gap: 2px;
+  gap: 1px;
 }
 
 .control-btn {
@@ -283,6 +286,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-left: auto;
 }
 
 .volume-label {
@@ -322,14 +326,14 @@ body {
   height: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0 6px;
   margin: 3px 6px;
 }
 
-.file-btn, .eq-btn, .pl-btn {
+.file-btn, .eq-btn, .pl-btn, .viz-btn {
   width: 32px;
-  height: 18px;
+  height: 28px;
   font-size: 9px;
   border: 1px solid;
   border-color: var(--winamp-button-light) var(--winamp-button-dark) var(--winamp-button-dark) var(--winamp-button-light);
@@ -342,12 +346,16 @@ body {
   letter-spacing: 0.5px;
 }
 
-.file-btn:hover, .eq-btn:hover, .pl-btn:hover {
+.file-btn {
+  margin-left: 24px;
+}
+
+.file-btn:hover, .eq-btn:hover, .pl-btn:hover, .viz-btn:hover {
   background: linear-gradient(145deg, var(--winamp-accent-bright) 0%, var(--winamp-accent) 100%);
   border-color: var(--winamp-accent-bright) var(--winamp-accent) var(--winamp-accent) var(--winamp-accent-bright);
 }
 
-.file-btn:active, .eq-btn:active, .pl-btn:active {
+.file-btn:active, .eq-btn:active, .pl-btn:active, .viz-btn:active {
   border-color: var(--winamp-button-dark) var(--winamp-button-light) var(--winamp-button-light) var(--winamp-button-dark);
   background: linear-gradient(145deg, var(--winamp-button-base) 0%, var(--winamp-button-dark) 100%);
 }

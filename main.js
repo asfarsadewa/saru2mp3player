@@ -5,8 +5,8 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 550,
-    height: 196,
+    width: 825,
+    height: 546,
     minWidth: 550,
     minHeight: 196,
     frame: false,
@@ -19,7 +19,9 @@ function createWindow() {
       enableRemoteModule: false,
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, 'src/renderer/assets/icons/icon.png')
+    icon: process.platform === 'win32' 
+      ? path.join(__dirname, 'src/renderer/assets/icons/icon.ico')
+      : path.join(__dirname, 'src/renderer/assets/icons/icon.png')
   });
 
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));

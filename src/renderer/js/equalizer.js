@@ -1,6 +1,6 @@
 class EqualizerManager {
   constructor() {
-    this.isEqVisible = false;
+    this.isEqVisible = true; // Start visible by default
     this.eqWindow = null;
     this.frequencies = [60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000];
     this.gains = new Array(10).fill(0); // -20 to +20 dB range
@@ -20,6 +20,8 @@ class EqualizerManager {
     this.enabled = true;
     this.initializeAudioNodes();
     this.initializeEqControls();
+    // Show EQ window immediately on startup
+    setTimeout(() => this.showEqWindow(), 100);
   }
 
   initializeAudioNodes() {
@@ -88,12 +90,19 @@ class EqualizerManager {
     eqBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      
+      const originalBackground = eqBtn.style.background;
       eqBtn.style.background = '#a0a0a0';
       setTimeout(() => {
-        eqBtn.style.background = '';
+        eqBtn.style.background = originalBackground;
+        this.updateEqButtonState();
       }, 100);
+      
       this.toggleEqWindow();
     });
+    
+    // Initialize button state
+    this.updateEqButtonState();
   }
 
   toggleEqWindow() {
@@ -150,11 +159,9 @@ class EqualizerManager {
       this.positionEqWindow();
       this.initializeEqWindowControls();
       this.isEqVisible = true;
+      this.updateEqButtonState();
 
-      // Expand window
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550 + 275, 196);
-      }
+      // No need to resize window - it's already the right size
 
       setTimeout(() => {
         this.eqWindow.classList.add('visible');
@@ -167,13 +174,11 @@ class EqualizerManager {
 
   hideEqWindow() {
     if (this.eqWindow) {
-      // Resize window immediately
-      if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 196);
-      }
+      // No need to resize window - it stays the same size
       
       this.eqWindow.classList.remove('visible');
       this.isEqVisible = false;
+      this.updateEqButtonState();
       
       setTimeout(() => {
         if (this.eqWindow && this.eqWindow.parentNode) {
@@ -202,6 +207,19 @@ class EqualizerManager {
     this.eqWindow.style.width = '275px';
     this.eqWindow.style.height = '196px';
     this.eqWindow.style.zIndex = '1000';
+  }
+
+  updateEqButtonState() {
+    const eqBtn = document.getElementById('eqBtn');
+    if (eqBtn) {
+      if (this.isEqVisible) {
+        eqBtn.style.background = '';
+        eqBtn.title = 'Hide Equalizer';
+      } else {
+        eqBtn.style.background = 'linear-gradient(145deg, #666666 0%, #444444 100%)';
+        eqBtn.title = 'Show Equalizer';
+      }
+    }
   }
 
   initializeEqWindowControls() {
