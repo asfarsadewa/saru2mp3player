@@ -153,7 +153,7 @@ class EqualizerManager {
 
       // Expand window
       if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550 + 275, 232);
+        window.electronAPI.resizeWindow(550 + 275, 196);
       }
 
       setTimeout(() => {
@@ -169,7 +169,7 @@ class EqualizerManager {
     if (this.eqWindow) {
       // Resize window immediately
       if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 232);
+        window.electronAPI.resizeWindow(550, 196);
       }
       
       this.eqWindow.classList.remove('visible');
@@ -200,7 +200,7 @@ class EqualizerManager {
     this.eqWindow.style.top = `${playerRect.top}px`;
     this.eqWindow.style.left = `${playerRect.right + 10}px`;
     this.eqWindow.style.width = '275px';
-    this.eqWindow.style.height = '232px';
+    this.eqWindow.style.height = '196px';
     this.eqWindow.style.zIndex = '1000';
   }
 
