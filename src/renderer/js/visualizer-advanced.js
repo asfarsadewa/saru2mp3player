@@ -1,6 +1,6 @@
 class AdvancedVisualizerManager {
   constructor() {
-    this.isVizVisible = false; // Start hidden by default
+    this.isVizVisible = true; // Start visible by default
     this.vizWindow = null;
     this.canvas = null;
     this.ctx = null;
@@ -69,7 +69,8 @@ class AdvancedVisualizerManager {
     this.canvas.style.width = '263px';
     this.canvas.style.height = '280px';
     
-    // Window starts hidden, controlled by UI
+    // Start visible by default
+    this.vizWindow.classList.add('visible');
     
     this.positionVisualizerWindow();
   }
