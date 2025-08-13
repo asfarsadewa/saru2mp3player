@@ -97,7 +97,7 @@ class PlaylistManager {
       
       console.log('Expanding window for playlist');
       if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 232 + 400 + 10);
+        window.electronAPI.resizeWindow(550, 196 + 350 + 10);
       }
       
       console.log('showPlaylistWindow completed successfully');
@@ -113,7 +113,7 @@ class PlaylistManager {
       // Resize window immediately
       console.log('Shrinking window back to normal size');
       if (window.electronAPI) {
-        window.electronAPI.resizeWindow(550, 232);
+        window.electronAPI.resizeWindow(550, 196);
       }
       
       this.playlistWindow.classList.remove('visible');
@@ -139,7 +139,7 @@ class PlaylistManager {
         this.playlistWindow.style.top = '250px';
         this.playlistWindow.style.left = '50px';
         this.playlistWindow.style.width = '550px';
-        this.playlistWindow.style.height = '400px';
+        this.playlistWindow.style.height = '350px';
         return;
       }
       
@@ -150,7 +150,7 @@ class PlaylistManager {
       this.playlistWindow.style.top = `${playerRect.bottom + 10}px`;
       this.playlistWindow.style.left = `${playerRect.left}px`;
       this.playlistWindow.style.width = '550px';
-      this.playlistWindow.style.height = '400px';
+      this.playlistWindow.style.height = '350px';
       this.playlistWindow.style.zIndex = '1000';
       
       console.log('Playlist window positioned at:', {
