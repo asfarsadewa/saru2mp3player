@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saru2 MP3 Player</title>
+  <link rel="stylesheet" href="../src/renderer/css/main.css">
+  <link rel="stylesheet" href="../src/renderer/css/retro-theme.css">
+</head>
+<body>
+  <div class="player-container">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        <span class="winamp-title">Saru2 MP3 Player</span>
+      </div>
+      <div class="title-bar-controls">
+        <button class="title-bar-control minimize-btn" id="minimizeBtn">_</button>
+        <button class="title-bar-control close-btn" id="closeBtn">×</button>
+      </div>
+    </div>
+
+    <div class="main-display">
+      <div class="time-display" id="timeDisplay">00:00</div>
+      <div class="track-info">
+        <div class="track-title" id="trackTitle">No file loaded</div>
+        <div class="track-artist" id="trackArtist"></div>
+      </div>
+      <div class="visualizer" id="visualizer">
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+        <div class="viz-bar"></div>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <input type="range" class="progress-bar" id="progressBar" min="0" max="100" value="0">
+    </div>
+
+    <div class="controls">
+      <button class="control-btn" id="prevBtn">⏮</button>
+      <button class="control-btn play-btn" id="playBtn">▶</button>
+      <button class="control-btn" id="pauseBtn" style="display: none;">⏸</button>
+      <button class="control-btn" id="stopBtn">⏹</button>
+      <button class="control-btn" id="nextBtn">⏭</button>
+      
+      <div class="volume-container">
+        <span class="volume-label">VOL</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+      </div>
+    </div>
+
+    <div class="bottom-controls">
+      <button class="file-btn" id="openFileBtn">OPEN</button>
+      <button class="eq-btn" id="eqBtn">EQ</button>
+      <button class="pl-btn" id="playlistBtn">PL</button>
+      <div class="status-indicators">
+        <span class="shuffle-indicator" id="shuffleIndicator">S</span>
+        <span class="repeat-indicator" id="repeatIndicator">R</span>
+        <span class="retro-indicator" id="retroIndicator">RETRO</span>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer"></audio>
+
+  <script src="../src/renderer/js/player.js"></script>
+  <script src="../src/renderer/js/playlist.js"></script>
+  <script src="../src/renderer/js/equalizer.js"></script>
+  <script src="../src/renderer/js/retromode.js"></script>
+  <script src="../src/renderer/js/ui.js"></script>
+  <script src="../src/renderer/js/visualizer.js"></script>
+</body>
+</html>

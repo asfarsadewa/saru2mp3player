@@ -1,0 +1,84 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+.pnp.*
+
+# Electron build artifacts
+dist/
+build/
+out/
+app/
+release/
+.electron-builder/
+
+# Platform-specific Electron builds
+*.dmg
+*.zip
+*.tar.gz
+*.deb
+*.rpm
+*.exe
+*.msi
+*.pkg
+*.snap
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+lerna-debug.log*
+
+# Temporary files
+tmp/
+temp/
+
+# Audio test files (optional - uncomment if you don't want test MP3s in git)
+# *.mp3
+# *.wav
+# *.flac
+# *.m4a
+# test-audio/
+
+# Configuration files that might contain sensitive data
+config.json
+settings.json
+user-preferences.json
