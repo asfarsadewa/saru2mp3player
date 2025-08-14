@@ -71,6 +71,8 @@ class AdvancedVisualizerManager {
     
     // Start visible by default
     this.vizWindow.classList.add('visible');
+    this.isVizVisible = true;
+    window.dispatchEvent(new CustomEvent('vizStateChange', { detail: { visible: this.isVizVisible } }));
     
     this.positionVisualizerWindow();
   }
@@ -132,7 +134,7 @@ class AdvancedVisualizerManager {
     if (this.vizWindow) {
       this.vizWindow.classList.add('visible');
       this.isVizVisible = true;
-      window.dispatchEvent(new Event('vizStateChange'));
+      window.dispatchEvent(new CustomEvent('vizStateChange', { detail: { visible: this.isVizVisible } }));
       
       if (window.player && window.player.isPlaying) {
         this.startVisualization();
@@ -145,7 +147,7 @@ class AdvancedVisualizerManager {
     if (this.vizWindow) {
       this.vizWindow.classList.remove('visible');
       this.isVizVisible = false;
-      window.dispatchEvent(new Event('vizStateChange'));
+      window.dispatchEvent(new CustomEvent('vizStateChange', { detail: { visible: false } }));
       this.stopVisualization();
     }
   }

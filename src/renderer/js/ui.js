@@ -26,11 +26,15 @@ class PlayerUI {
     const retroIndicator = document.getElementById('retroIndicator');
     const vizBtn = document.getElementById('vizBtn');
 
-    vizBtn.addEventListener('click', () => {
-      if (window.advancedVisualizerManager) {
-        window.advancedVisualizerManager.toggleVisualizerWindow();
-      }
-    });
+    if (vizBtn) {
+      vizBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (window.advancedVisualizerManager) {
+          window.advancedVisualizerManager.toggleVisualizerWindow();
+        }
+      });
+    }
 
     window.addEventListener('vizStateChange', () => this.updateVizButtonState());
 
