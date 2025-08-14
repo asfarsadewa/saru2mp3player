@@ -25,15 +25,15 @@ class AdvancedVisualizerManager {
     console.log('AdvancedVisualizerManager: Starting initialization');
     
     const waitForElements = () => {
-      const vizBtn = document.getElementById('vizBtn');
       const vizWindow = document.getElementById('vizWindow');
+      const vizCanvas = document.getElementById('vizCanvas');
       
       console.log('AdvancedVisualizerManager: Looking for elements...', {
-        vizBtn: !!vizBtn,
-        vizWindow: !!vizWindow
+        vizWindow: !!vizWindow,
+        vizCanvas: !!vizCanvas
       });
       
-      if (vizBtn && vizWindow) {
+      if (vizWindow && vizCanvas) {
         console.log('AdvancedVisualizerManager: Found all elements, setting up...');
         try {
           this.setupVisualizerWindow();
@@ -62,10 +62,10 @@ class AdvancedVisualizerManager {
     this.ctx = this.canvas.getContext('2d');
     
     // Set up high DPI rendering
-    const dpr = window.devicePixelRatio || 1;
-    this.canvas.width = 263 * dpr;
-    this.canvas.height = 280 * dpr;
-    this.ctx.scale(dpr, dpr);
+    this.dpr = window.devicePixelRatio || 1;
+    this.canvas.width = 263 * this.dpr;
+    this.canvas.height = 280 * this.dpr;
+    this.ctx.scale(this.dpr, this.dpr);
     this.canvas.style.width = '263px';
     this.canvas.style.height = '280px';
     
@@ -88,12 +88,12 @@ class AdvancedVisualizerManager {
       vizModeSelect: !!vizModeSelect
     });
     
-    if (!vizBtn) {
-      console.error('AdvancedVisualizerManager: VIZ button not found!');
-      return;
-    }
-    
     // The vizBtn event listener is now managed by PlayerUI
+    if (vizBtn) {
+      // vizBtn is available - no additional setup needed here as PlayerUI handles it
+    } else {
+      console.warn('AdvancedVisualizerManager: VIZ button not found, but continuing with other controls');
+    }
     
     if (vizClose) {
       vizClose.addEventListener('click', () => {
@@ -154,6 +154,9 @@ class AdvancedVisualizerManager {
 
   startVisualization() {
     if (!window.player || !window.player.analyserNode || !this.isVizVisible) return;
+    
+    // Return early if already animating to prevent duplicate loops
+    if (this.isAnimating) return;
     
     this.isAnimating = true;
     
@@ -232,8 +235,10 @@ class AdvancedVisualizerManager {
     
     if (bassEnergy > average * this.beatThreshold && Date.now() - this.lastBeatTime > 200) {
       this.lastBeatTime = Date.now();
-      beatIndicator.classList.add('beat');
-      setTimeout(() => beatIndicator.classList.remove('beat'), 100);
+      if (beatIndicator) {
+        beatIndicator.classList.add('beat');
+        setTimeout(() => beatIndicator.classList.remove('beat'), 100);
+      }
       return true;
     }
     return false;
@@ -272,16 +277,18 @@ class AdvancedVisualizerManager {
   }
 
   renderWaveformWaterfall() {
-    // Shift previous data down
-    const imageData = this.ctx.getImageData(0, 0, 263, 279);
-    this.ctx.putImageData(imageData, 0, 1);
+    // Shift previous data down using backing-store dimensions
+    const width = this.canvas.width;
+    const height = this.canvas.height;
+    const imageData = this.ctx.getImageData(0, 0, width, height - this.dpr);
+    this.ctx.putImageData(imageData, 0, this.dpr);
     
     // Draw new waveform at top
     this.ctx.strokeStyle = '#00ff41';
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     
-    const sliceWidth = 263 / this.timeData.length;
+    const sliceWidth = (width / this.dpr) / this.timeData.length;
     let x = 0;
     
     for (let i = 0; i < this.timeData.length; i++) {
